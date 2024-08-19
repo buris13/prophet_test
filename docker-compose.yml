@@ -6,9 +6,9 @@ services:
     ports:
       - 127.0.0.1:8000:8000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/inference/ETH"]
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:8000/inference/ETH && curl -f http://localhost:8000/inference/BTC && curl -f http://localhost:8000/inference/SOL && curl -f http://localhost:8000/inference/BNB && curl -f http://localhost:8000/inference/ARB"]
       interval: 10s
-      timeout: 5s
+      timeout: 20s
       retries: 12
     volumes:
       - ./inference-data:/app/data
