@@ -12,11 +12,16 @@ def update_data():
     download_data()
     format_data()
     predict_eth()
+    print("done eth")
     predict_btc()
+    print("done btc")
     predict_bnb()
+    print("donet bnb")
     predict_sol()
+    print("done sol")
     predict_arb()
-    
+    print("done arb")
+
 
 def get_eth_price(Id_minutes):
     timestamp_now = int(datetime.now(UTC).timestamp())

@@ -17,10 +17,10 @@ arb_training_price_data_path = os.path.join(data_base_path, "arb_price_data.csv"
 def download_data():
     cm_or_um = "um"
     symbols = ["ETHUSDT", "BTCUSDT", "BNBUSDT", "SOLUSDT", "ARBUSDT"]
-    intervals = ["1h"]
+    intervals = ["15m"]
     years = ["2022", "2023", "2024"]
     months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-    day = 600
+    day = 500
     download_path = binance_data_path
     # download_binance_monthly_data(
     #     cm_or_um, symbols, intervals, years, months, download_path
@@ -123,15 +123,22 @@ def format_data():
 ##############################
 def predict_eth():
     df = pd.read_csv(eth_training_price_data_path)
-    model = Prophet()
+    # model = Prophet()
+    model = Prophet(
+    interval_width=0.95,  
+    daily_seasonality=False,
+    yearly_seasonality=False,
+    weekly_seasonality=True,
+    changepoint_prior_scale=0.1
+)
 
-    model.add_seasonality(name='daily', period=1440, fourier_order=8)  
-    model.add_seasonality(name='10_minute', period=10, fourier_order=5)
-    model.add_seasonality(name='20_minute', period=20, fourier_order=5)
+    # model.add_seasonality(name='daily', period=1440, fourier_order=8)  
+    # model.add_seasonality(name='10_minute', period=10, fourier_order=5)
+    # model.add_seasonality(name='20_minute', period=20, fourier_order=5)
     model.fit(df)
 
     now_utc = datetime.now(UTC)
-    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=24 * 60 * 60, freq='s')})
+    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=48 * 60 * 60, freq='s')})
 
     forecast = model.predict(future)
     forecast['unix_time'] = forecast['ds'].apply(lambda x: int(x.timestamp()))
@@ -142,15 +149,22 @@ def predict_eth():
 
 def predict_btc():
     df = pd.read_csv(btc_training_price_data_path)
-    model = Prophet()
+    # model = Prophet()
+    model = Prophet(
+    interval_width=0.95,  
+    daily_seasonality=False,
+    yearly_seasonality=False,
+    weekly_seasonality=True,
+    changepoint_prior_scale=0.1
+)
 
-    model.add_seasonality(name='daily', period=1440, fourier_order=8)  
-    model.add_seasonality(name='10_minute', period=10, fourier_order=5)
-    model.add_seasonality(name='20_minute', period=20, fourier_order=5)
+    # model.add_seasonality(name='daily', period=1440, fourier_order=8)  
+    # model.add_seasonality(name='10_minute', period=10, fourier_order=5)
+    # model.add_seasonality(name='20_minute', period=20, fourier_order=5)
     model.fit(df)
 
     now_utc = datetime.now(UTC)
-    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=24 * 60 * 60, freq='s')})
+    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=48 * 60 * 60, freq='s')})
 
     forecast = model.predict(future)
     forecast['unix_time'] = forecast['ds'].apply(lambda x: int(x.timestamp()))
@@ -161,15 +175,22 @@ def predict_btc():
 
 def predict_bnb():
     df = pd.read_csv(bnb_training_price_data_path)
-    model = Prophet()
+    # model = Prophet()
+    model = Prophet(
+    interval_width=0.95,  
+    daily_seasonality=False,
+    yearly_seasonality=False,
+    weekly_seasonality=True,
+    changepoint_prior_scale=0.1
+)
 
-    model.add_seasonality(name='daily', period=1440, fourier_order=8)  
-    model.add_seasonality(name='10_minute', period=10, fourier_order=5)
-    model.add_seasonality(name='20_minute', period=20, fourier_order=5)
+    # model.add_seasonality(name='daily', period=1440, fourier_order=8)  
+    # model.add_seasonality(name='10_minute', period=10, fourier_order=5)
+    # model.add_seasonality(name='20_minute', period=20, fourier_order=5)
     model.fit(df)
 
     now_utc = datetime.now(UTC)
-    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=24 * 60 * 60, freq='s')})
+    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=48 * 60 * 60, freq='s')})
 
     forecast = model.predict(future)
     forecast['unix_time'] = forecast['ds'].apply(lambda x: int(x.timestamp()))
@@ -180,15 +201,22 @@ def predict_bnb():
 
 def predict_sol():
     df = pd.read_csv(sol_training_price_data_path)
-    model = Prophet()
+    # model = Prophet()
+    model = Prophet(
+    interval_width=0.95,  
+    daily_seasonality=False,
+    yearly_seasonality=False,
+    weekly_seasonality=True,
+    changepoint_prior_scale=0.1
+)
 
-    model.add_seasonality(name='daily', period=1440, fourier_order=8)  
-    model.add_seasonality(name='10_minute', period=10, fourier_order=5)
-    model.add_seasonality(name='20_minute', period=20, fourier_order=5)
+    # model.add_seasonality(name='daily', period=1440, fourier_order=8)  
+    # model.add_seasonality(name='10_minute', period=10, fourier_order=5)
+    # model.add_seasonality(name='20_minute', period=20, fourier_order=5)
     model.fit(df)
 
     now_utc = datetime.now(UTC)
-    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=24 * 60 * 60, freq='s')})
+    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=48 * 60 * 60, freq='s')})
 
     forecast = model.predict(future)
     forecast['unix_time'] = forecast['ds'].apply(lambda x: int(x.timestamp()))
@@ -199,15 +227,22 @@ def predict_sol():
 
 def predict_arb():
     df = pd.read_csv(arb_training_price_data_path)
-    model = Prophet()
+    # model = Prophet()
+    model = Prophet(
+    interval_width=0.95,  
+    daily_seasonality=False,
+    yearly_seasonality=False,
+    weekly_seasonality=True,
+    changepoint_prior_scale=0.1
+)
 
-    model.add_seasonality(name='daily', period=1440, fourier_order=8)  
-    model.add_seasonality(name='10_minute', period=10, fourier_order=5)
-    model.add_seasonality(name='20_minute', period=20, fourier_order=5)
+    # model.add_seasonality(name='daily', period=1440, fourier_order=8)  
+    # model.add_seasonality(name='10_minute', period=10, fourier_order=5)
+    # model.add_seasonality(name='20_minute', period=20, fourier_order=5)
     model.fit(df)
 
     now_utc = datetime.now(UTC)
-    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=24 * 60 * 60, freq='s')})
+    future = pd.DataFrame({'ds': pd.date_range(start=now_utc.strftime('%Y-%m-%d %H:%M:%S'), periods=48 * 60 * 60, freq='s')})
 
     forecast = model.predict(future)
     forecast['unix_time'] = forecast['ds'].apply(lambda x: int(x.timestamp()))
